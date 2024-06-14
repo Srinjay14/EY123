@@ -1,0 +1,490 @@
+OverLoading
+
+Calculator 
+using System.ComponentModel;
+
+internal class Program
+{
+    class Calculator
+    {
+        public int Add(int a, int b)
+        {
+            int sum = a + b;
+            return sum;
+        }
+        public int Add(int a, int b, int c)
+        {
+            int sum = a + b + c;
+            return sum;
+        }   
+        public double Add(double a, double b, double c)
+        {
+            double sum = a + b + c;
+            return sum;
+        }
+        public int Substract(int a, int b)
+        {
+            int minus = a - b;
+            return minus;
+        }
+        public int Substract(int a, int b, int c)
+        {
+            int minus = a - b - c;
+            return minus;
+        }
+        public double Substract(double a, double b, double c)
+        {
+            double minus = a - b - c;
+            return minus;
+        }
+        public int Multiply(int a, int b)
+        {
+            int prod = a * b;
+            return prod;
+        }
+        public int Multiply(int a, int b, int c)
+        {
+            int prod = a * b * c;
+            return prod;
+        }
+        public double Multiply(double a, double b, double c)
+        {
+            double prod = a * b * c;
+            return prod;
+        }
+    }
+    private static void Main(string[] args)
+    {
+        Calculator ob = new Calculator();
+
+        int sum1 = ob.Add(1, 2);
+        Console.WriteLine("Sum of two integer values is - " + sum1);
+
+        int sum2 = ob.Add(1, 2, 3);
+        Console.WriteLine("Sum of three integer values is - " + sum2);
+
+        double sum3 = ob.Add(1.1, 2.2, 3.3);
+        Console.WriteLine("Sum of three rational values is - " + sum3);
+
+        int minus1 = ob.Substract(1, 2);
+        Console.WriteLine("Difference of two integer values is - " + minus1);
+
+        int minus2 = ob.Substract(1, 2, 3);
+        Console.WriteLine("Difference of three integer values is - " + minus2);
+
+        double minus3 = ob.Substract(1.1, 2.2, 3.3);
+        Console.WriteLine("Difference of three rational values is - " + minus3);
+
+        int prod1 = ob.Multiply(1, 2);
+        Console.WriteLine("Product of two integer values is - " + prod1);
+
+        int prod2 = ob.Multiply(1, 2, 3);
+        Console.WriteLine("Product of three integer values is - " + prod2);
+
+        double prod3 = ob.Multiply(1.1, 2.2, 3.3);
+        Console.WriteLine("Product of three rational values is - " + prod3);
+
+    }
+}
+
+-----------------------------------------------------------------------------
+
+String Formatter
+
+using System.ComponentModel;
+
+internal class Program
+{
+    class String_Formatter
+    {
+        public string Format(string a)
+        {
+            a = a.ToUpper();
+            return a;
+        }
+        public string Format(string a, int b)
+        {
+            a = a + a + a;
+            return a;
+        }   
+        public string Format(string a, string b)
+        {
+            String c = a + " " + b;
+            return c;
+        }
+    }
+    private static void Main(string[] args)
+    {
+        String_Formatter formatter = new String_Formatter();
+
+        string upper = formatter.Format("hello");
+        Console.WriteLine(upper);
+
+        string repeated = formatter.Format("hello", 3);
+        Console.WriteLine(repeated);
+
+        string concatenated = formatter.Format("hello", "world");
+        Console.WriteLine(concatenated);
+    }
+}
+
+---------------------------------------------------------------------------
+
+Inheritance Animal Hierarchy
+
+internal class Program
+{
+    class Animal
+    {
+        public virtual void MakeSound()
+        {
+            Console.WriteLine("Animal Talks");
+        }
+    }
+    class Dog : Animal
+    {
+        public override void MakeSound()
+        {
+            Console.WriteLine("Bark");
+        }
+    }
+    class Cat : Animal
+    {
+        public override void MakeSound()
+        {
+            Console.WriteLine("Meow");
+        }
+    }
+    private static void Main(string[] args)
+    {
+        Cat c = new Cat();
+        c.MakeSound();
+        Dog d = new Dog();
+        d.MakeSound();  
+    }
+}
+
+---------------------------------------------------------------------------
+
+
+Rectangle Area Calculator
+
+internal class Program
+{
+    class Rectangle
+    {
+        public virtual double CalculateArea(double l, double b)
+        {
+            double area = l * b;
+            return area;
+        }
+        public virtual double CalculateArea(double a)
+        {
+            double area = a * a;
+            return area;
+        }
+    }
+    
+    private static void Main(string[] args)
+    {
+        Rectangle rect = new Rectangle();
+
+        double a1 = rect.CalculateArea(4, 5.5);
+        Console.WriteLine("Area of rectangle is " + a1);
+        double a2 = rect.CalculateArea(3.14);
+        Console.WriteLine("Area of Square is " + a2);
+    }
+}
+
+-----------------------------------------------------------------------------
+
+Car Brake System
+
+
+internal class Program
+{
+    class Car
+    {
+       public virtual void Brake()
+        {
+            Console.WriteLine("Generic Brake Applied.");
+        }
+    }
+    class SportsCar : Car
+    {
+        public override void Brake()
+        {
+            Console.WriteLine("High-Performance Brake Applied");
+        }
+    }
+    
+    private static void Main(string[] args)
+    {
+        SportsCar Lambo = new SportsCar();
+        Lambo.Brake();
+    }
+}
+
+-------------------------------------------------------------------------------
+
+More Inheritance
+
+
+internal class Program
+{
+    class Car
+    {
+       public Car()
+        {
+            Console.WriteLine("CAR");
+        }
+    }
+    class RaceCar : Car
+    {
+        public RaceCar()
+        {
+            Console.WriteLine("RACECAR");
+        }
+        public void print()
+        {
+            Console.WriteLine("Max Verstappen");
+        }
+    }
+    class SportsCar : Car
+    {
+        public SportsCar()
+        {
+            Console.WriteLine("SPORTSCAR");
+        }
+    }
+    class Ferrari : SportsCar
+    {
+        public Ferrari()
+        {
+            Console.WriteLine("Ferrari");
+        }
+        public void print()
+        {
+            Console.WriteLine("Lewis Hamilton");
+        }
+    }
+    
+    private static void Main(string[] args)
+    {
+        Ferrari f = new Ferrari();
+        f.print();
+        RaceCar rc = new RaceCar();
+        rc.print(); 
+    }
+}
+
+-----------------------------------------------------------------------------
+
+INTERFACES
+
+IEmployee.cs (Interface)
+
+namespace ConsoleApp3
+{
+    internal interface IEmployee
+    {
+        public void GetFirstName();
+
+        public void GetLastName();
+
+    }
+}
+
+Employee.cs (Class File)
+
+namespace ConsoleApp3
+{
+    internal class Employee : IEmployee
+    {
+        public void GetFirstName()
+        {
+            Console.WriteLine("Srinjay");
+        }
+        public void GetLastName()
+        {
+            Console.WriteLine("Mukherjee");
+        }
+    }
+}
+
+
+Program.cs (Main)
+
+Internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Employee emp = new Employee();
+        emp.GetFirstName();
+        emp.GetLastName();
+    }
+}
+
+---------------------------------------------------------------
+
+Abstract Class
+
+
+namespace inhertance
+{   
+    abstract class AbsClass
+    {
+        public int AddTwoNumbers(int n1, int n2)
+        {
+            return n1 + n2;
+        }
+        public abstract int MultiplyTwoNumbers(int n1, int n2);
+    }
+
+    class AbsDerived : AbsClass
+    {
+        public override int MultiplyTwoNumbers(int n1, int n2)
+        {
+            return n1 * n2;
+        }
+
+        private static void Main(string[] args)
+        {
+            AbsDerived calculate = new AbsDerived();
+            int added = calculate.AddTwoNumbers(10, 20);
+            int multiplied = calculate.MultiplyTwoNumbers(10, 20);
+
+            Console.WriteLine("Added: {0}, Multiplied: {1}", added, multiplied);
+        }
+    }    
+}
+
+-----------------------------------------------------------------------------------------
+
+Abstract Class 2
+
+namespace inhertance
+{   
+    abstract class ArtPiece
+    {
+        public string Title = "David", Artist =  "Michaelangelo";
+        public int YearCreated = 1111;
+        public abstract void Describe();
+    }
+
+    class Painting : ArtPiece
+    {
+        public int CanvasSize = 14;
+
+        public override void Describe()
+        {
+            Console.WriteLine("Painting: {0} by {1}, created in {2}, size: {3}", Title, Artist, YearCreated, CanvasSize); ;
+        }
+    }
+
+    class Sculpture : ArtPiece
+    {
+        public string Material = "Sandstone";
+
+        public override void Describe()
+        {
+            Console.WriteLine("Sculpture: {0} by {1}, created in {2}, made of: {3}", Title, Artist, YearCreated, Material); ;
+        }
+    }
+
+    internal class Program 
+    {
+
+        private static void Main(string[] args)
+        {
+            Painting p = new Painting();
+            Sculpture s = new Sculpture();
+            p.Describe();
+            s.Describe();
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------
+
+List - Int Lists
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<int> IntList = new List<int>() { 10, 20, 30, 40 };
+
+        for (int i = 0; i < IntList.Count; i++)
+        {
+            Console.WriteLine(IntList[i]);
+        }
+
+        foreach(var el in IntList)
+        {
+            Console.WriteLine(el);
+        }
+
+	IntList.Remove(10);
+	IntList.RemoveAt(2);
+
+        IntList.ForEach(el => Console.WriteLine(el));
+    }
+}
+
+----------------------------------------------------------------------------------
+
+List - String Lists
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<string> strList = new List<string>();
+
+        strList.Add("Zeus");
+        strList.Add("Poseidon");
+        strList.Add("Hades");
+
+        for (int i = 0; i < strList.Count; i++)
+        {
+            Console.WriteLine(strList[i]);
+        }
+
+        strList.RemoveAt(1);
+        Console.WriteLine();
+
+        foreach(var el in strList)
+        {
+            Console.WriteLine(el);
+        }
+    }
+}
+
+------------------------------------------------------------------------------
+
+Typecasting ArrayList
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        ArrayList myArrayList = new ArrayList();
+        myArrayList.Add(2);
+        myArrayList.Add("String");
+        myArrayList.Add(3);
+        myArrayList.Add(4.6f);
+
+        int e1 = (int)myArrayList[0];
+        string e2 = (string)myArrayList[1];
+        int e3 = (int)myArrayList[2];
+        float e4 = (float)myArrayList[3];
+
+        Console.WriteLine(e1);
+        Console.WriteLine(e2);
+        Console.WriteLine(e3);
+        Console.WriteLine(e4);
+    }
+}
+
+-----------------------------------------------------------------------------------

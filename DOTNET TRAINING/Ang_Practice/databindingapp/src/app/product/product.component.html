@@ -1,0 +1,8 @@
+<h2>Parent App Component</h2>
+<label>Enter Parent Component Value : </label>
+<input type = 'text' #pdata (keyup) = "0"><br>
+<label>Value From the Child Component is : </label>
+
+<app-product [parentData] = "pdata.value"></app-product>
+<router-outlet></router-outlet>
+

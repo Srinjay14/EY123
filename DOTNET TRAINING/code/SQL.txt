@@ -1,0 +1,57 @@
+SQL Stored Procedures
+
+
+create table Employees (EmployeeID int Primary Key, FirstName nvarchar(50), LastName nvarchar(50), JobTitle nvarchar(50), HireDate date)
+
+create procedure insertValue 
+(
+	@EmployeeID int,
+	@FirstName nvarchar(50), 
+	@LastName nvarchar(50), 
+	@JobTitle nvarchar(50), 
+	@HireDate date
+)
+as
+Begin
+	insert into Employees values (@EmployeeID, @FirstName, @LastName, @JobTitle, @HireDate)
+End
+
+exec insertValue 1,'Bruce','Wayne','Batman','1969-03-12'
+exec insertValue 2,'Dick','Grayson','Nightwing','1975-09-04'
+exec insertValue 3,'Jason','Todd','Robin','1980-12-31'
+exec insertValue 4,'Tim','Drake','Red Robin','1983-01-28'
+exec insertValue 5,'Stephanie','Brown','Robin','1985-04-11'
+exec insertValue 6,'Damian','Wayne','Robin','1990-05-10'
+
+select * from Employees
+
+create procedure readvalue (@EmployeeID int) 
+as
+begin
+	select * from Employees where EmployeeID = @EmployeeID
+end
+
+exec readvalue 3
+
+create procedure updatevalue (@JobTitle nvarchar(50), @EmployeeID int)
+as
+begin
+	update Employees set JobTitle = @JobTitle where EmployeeID = @EmployeeID
+end
+
+exec updatevalue 'Red Hood', 3
+
+create procedure deletevalue (@EmployeeID int)
+as
+begin
+	delete from Employees where EmployeeID = @EmployeeID
+end
+
+exec deletevalue 5
+
+select * from Employees
+
+--------------------------------------------------------------------------------------------------
+
+
+

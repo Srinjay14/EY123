@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Calling_Backend_Student.props" />
+</Project>

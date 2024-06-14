@@ -1,0 +1,711 @@
+SQL C# Connection
+
+ADO.NET
+
+1. CRUD Operations
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class SqlConnectionDemo
+{
+    SqlConnection conn;
+
+    public SqlConnectionDemo()
+    {
+        // Instantiate the connection
+        conn = new SqlConnection("Data Source=1EB507C8177550A;Initial Catalog=Northwind;Integrated Security=SSPI");
+    }
+    static void Main(string[] args)
+    {
+        SqlConnectionDemo scd = new SqlConnectionDemo();
+
+        Console.WriteLine();
+        Console.WriteLine("Categories Before Insert");
+        Console.WriteLine("--------------------------");
+
+        // Use ExecuteReader method
+        scd.ReadData();
+
+        // Use ExecuteNonQuery method for insert
+        scd.InsertData();
+
+        Console.WriteLine();
+        Console.WriteLine("Categories After Insert");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+
+        // Use ExecuteNonQuery method for update
+
+        scd.UpdateData();
+
+        Console.WriteLine();
+        Console.WriteLine("Categories After Update");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+
+        // Use ExecuteNonQuery method for delete
+
+        scd.DeleteData();
+
+        Console.WriteLine();
+        Console.WriteLine("Categories After Delete");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+    }
+
+    public void ReadData()
+    {
+        SqlDataReader rdr = null;
+
+        try
+        {
+            //Open the connection
+            conn.Open();
+
+            //Pass connection to command object
+            SqlCommand cmd = new SqlCommand("select CategoryName from Categories", conn);
+
+            //Get Query Result
+            rdr = cmd.ExecuteReader();
+
+            //Print CustomerID for each record
+            while (rdr.Read())
+            {
+                Console.WriteLine(rdr[0]);
+            }
+        }
+        finally
+        {
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void InsertData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare String Command
+            string insertString = @"
+                                insert into Categories
+                                (CategoryName, Description)
+                                values ('Miscellaneous','Whatever doesnt fit eleswhere')";
+
+            // 1.Instantiate a new Command with a query and connection
+            SqlCommand cmd = new SqlCommand(insertString, conn);
+
+            // Call ExecuteNonQuery to send command
+            cmd.ExecuteNonQuery();
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void UpdateData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare Command String
+            string updateString = @"
+                                update Categories
+                                set CategoryName = 'Others'
+                                where CategoryName = 'Miscellaneous'";
+
+            // Instantiate a new command with CommandText only
+            SqlCommand cmd = new SqlCommand(updateString);
+            // Set the Connection Property
+            cmd.Connection = conn;
+            // Call ExecuteNonQuery to send Command
+            cmd.ExecuteNonQuery();
+
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void DeleteData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare Command String
+            string deleteString = @"
+                                delete from Categories
+                                where CategoryName = 'Others'";
+
+            // 1. Instantiate a new Command
+            SqlCommand cmd = new SqlCommand();
+            // 2. Set the CommandText property
+            cmd.CommandText = deleteString;
+            // 3. Set the Connection Property
+            cmd.Connection = conn;
+            // 4. Call ExecuteNonQuery to send command
+            cmd.ExecuteNonQuery();
+
+
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+}
+
+
+----------------------------------------------------------------------------------------------------------------
+
+2. More CRUD Operations
+
+SQL Queries---- 
+
+create database Retail
+
+create table Orders (OrderID int, Item nvarchar(50), Quantity int, Price int)
+
+insert into Orders values (001, 'Pen', 4, 10), (002, 'Pencil', 1, 5), (003, 'Notebook', 2, 40)
+
+select * from Orders
+
+C# Code----
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class SqlConnectionDemo
+{
+    SqlConnection conn;
+
+    public SqlConnectionDemo()
+    {
+        // Instantiate the connection
+        conn = new SqlConnection("Data Source=1EB507C8177550A;Initial Catalog=Retail;Integrated Security=SSPI");
+    }
+    static void Main(string[] args)
+    {
+        SqlConnectionDemo scd = new SqlConnectionDemo();
+
+        Console.WriteLine();
+        Console.WriteLine("Items Before Insert");
+        Console.WriteLine("--------------------------");
+
+        // Use ExecuteReader method
+        scd.ReadData();
+        
+        // Use ExecuteNonQuery method for insert
+        scd.InsertData();
+
+        Console.WriteLine();
+        Console.WriteLine("Items After Insert");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+
+        // Use ExecuteNonQuery method for update
+
+        scd.UpdateData();
+
+        Console.WriteLine();
+        Console.WriteLine("Items After Update");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+
+        // Use ExecuteNonQuery method for delete
+
+        scd.DeleteData();
+
+        Console.WriteLine();
+        Console.WriteLine("Items After Delete");
+        Console.WriteLine("--------------------------");
+
+        scd.ReadData();
+        
+    }
+
+    public void ReadData() 
+    {
+        SqlDataReader rdr = null;
+
+        try
+        {
+            //Open the connection
+            conn.Open();
+
+            //Pass connection to command object
+            SqlCommand cmd = new SqlCommand("select Item from Orders", conn);
+
+            //Get Query Result
+            rdr = cmd.ExecuteReader();
+
+            //Print CustomerID for each record
+            while (rdr.Read())
+            {
+                Console.WriteLine(rdr[0]);
+            }
+        }
+        finally
+        {
+            if (rdr != null)
+            {
+                rdr.Close();
+            }
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void InsertData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare String Command
+            string insertString = @"
+                                insert into Orders
+                                (OrderID, Item, Quantity, Price)
+                                values (004,'Geometry Box', 1, 70)";
+
+            // 1.Instantiate a new Command with a query and connection
+            SqlCommand cmd = new SqlCommand(insertString, conn);
+
+            // Call ExecuteNonQuery to send command
+            cmd.ExecuteNonQuery();
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void UpdateData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare Command String
+            string updateString = @"
+                                update Orders
+                                set Item = 'Ball Pen'
+                                where Item = 'Pen'";
+
+            // Instantiate a new command with CommandText only
+            SqlCommand cmd = new SqlCommand(updateString);
+            // Set the Connection Property
+            cmd.Connection = conn;
+            // Call ExecuteNonQuery to send Command
+            cmd.ExecuteNonQuery();
+
+        }
+        finally
+        {
+            if(conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+
+    public void DeleteData()
+    {
+        try
+        {
+            conn.Open();
+
+            // Prepare Command String
+            string deleteString = @"
+                                delete from Orders 
+                                where Item = 'Pencil'";
+
+            // 1. Instantiate a new Command
+            SqlCommand cmd = new SqlCommand();
+            // 2. Set the CommandText property
+            cmd.CommandText = deleteString;
+            // 3. Set the Connection Property
+            cmd.Connection = conn;
+            // 4. Call ExecuteNonQuery to send command
+            cmd.ExecuteNonQuery();
+
+
+        }
+        finally
+        {
+            if (conn != null)
+            {
+                conn.Close();
+            }
+        }
+    }
+}
+
+-----------------------------------------------------------------------------------------------
+
+3. More ADO.NET
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string connectionString = "Data Source = 1EB507C8177550A; Initial Catalog=Northwind;"
+            + "Integrated Security = true";
+
+        // Provide the Query string with a Parameter Placeholder
+        string queryString = "SELECT ProductID, UnitPrice, ProductName FROM dbo.Products "
+                    + "WHERE UnitPrice > @pricePoint "
+                    + "ORDER BY UnitPrice DESC;";
+
+
+        // Specify Parameter Value
+        int paramValue = 5;
+
+        // Create connection in using block. All resources will be closed when the code exits.
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Create Command and Parameter Objects
+            SqlCommand command = new SqlCommand(queryString, connection);
+            command.Parameters.AddWithValue("@Pricepoint", paramValue);
+
+            // Open Command in a Try-Catch block, create and execute DataReader
+
+            try
+            {
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("\t {0} \t {1} \t {2}", reader[0], reader[1], reader[2]);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            Console.ReadLine();
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------
+
+4. 
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string connectionString = "Data Source = 1EB507C8177550A; Initial Catalog=Northwind;"
+            + "Integrated Security = true";
+
+        // Provide the Query string with a Parameter Placeholder
+        string queryString = "SELECT ContactName, City, CompanyName from Customers";
+                   
+
+
+        // Specify Parameter Value
+        //int paramValue = 10;
+
+        // Create connection in using block. All resources will be closed when the code exits.
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Create Command and Parameter Objects
+            SqlCommand command = new SqlCommand(queryString, connection);
+            //command.Parameters.AddWithValue("@Pricepoint", paramValue);
+
+            // Open Command in a Try-Catch block, create and execute DataReader
+
+            try
+            {
+                string s = "Contact Name";
+                string t = "City";
+                string v = "Company Name";
+                string u = "-------------";
+
+                connection.Open();
+                SqlDataReader reader = command.ExecuteReader();
+                Console.WriteLine("{0,-30} \t {1,-20} \t {2,-70}", s, t, v);
+                Console.WriteLine("{0,-30} \t {1,-20} \t {2,-70}", u, u, u);
+                Console.WriteLine();
+
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0,-30} \t {1,-20} \t {2,-70}", reader[0], reader[1], reader[2]);
+                }
+                reader.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------
+
+5.
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string connectionString = "Data Source = 1EB507C8177550A; Initial Catalog=Northwind;"
+            + "Integrated Security = true";
+        string customerID = "ALFKI";               // Example Customer
+
+        // Create and Configure the SqlConnection object
+        using (SqlConnection connection = new SqlConnection(connectionString))
+        {
+            // Create and Configure the SqlCommand object for the stored procedure
+            using (SqlCommand command = new SqlCommand("CustOrderHist", connection)) 
+            {
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.AddWithValue("@CustomerID", customerID);
+                
+                connection.Open();
+
+                // Execute the stored procedure and retrieve the results
+                SqlDataReader reader = command.ExecuteReader();
+
+                // Check if the reader contains rows
+                if(reader.HasRows) 
+                {
+                    // Iterate over the rows and display the result
+                    while (reader.Read())
+                    {
+                        // Access the columns using thir name
+                        string productName = reader["ProductName"].ToString();
+                        int totalOrders = (int)reader["Total"];
+
+                        Console.WriteLine($"Product Name: {productName}, Total Orders: {totalOrders}");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("No data found for the specified customer.");
+                }
+                // Close connections
+                reader.Close();
+                connection.Close();
+            }
+        }
+    }
+}
+
+-------------------------------------------------------------------------------------------------------------------
+
+6. DATATABLE
+
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string connectionString = "Data Source = 1EB507C8177550A; Initial Catalog=Northwind;"
+            + "Integrated Security = true";
+
+        // Read Data from the Customers table in Northwind DB
+        DataTable customersDataTable = ReadDataFromNorthwind(connectionString, "SELECT * from Customers");
+
+        // Display Original Data
+        Console.WriteLine("Original Customers Data: ");
+        //DisplayDataTable(customersDataTable);
+
+        // Filter data to get only customers from France
+        DataTable french = FilterData(customersDataTable, "Country = 'France'");
+        Console.WriteLine("\nFrench Customers Data: ");
+        //DisplayDataTable(french);
+
+        // Sort Data by Company Name
+        DataTable sorted = SortData(french, "CompanyName ASC");
+        Console.WriteLine("\nSorted French Customers Data: ");
+        DisplayDataTable(sorted);
+
+        //Calculate and Display the Total Number of Customers
+        int totalCustomers = GetTotalCustomers(customersDataTable);
+        Console.WriteLine($"\nTotal Number of Customers: {totalCustomers}"); 
+    }
+    static DataTable ReadDataFromNorthwind(string connectionString, string query)
+    {
+        DataTable dataTable = new DataTable();
+        try
+        {
+            using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                connection.Open();
+                using(SqlDataAdapter adapter = new SqlDataAdapter(query, connection))
+                {
+                    adapter.Fill(dataTable);
+                }
+            }
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error reading data from Northwind Database: {ex.Message}");
+        }
+        return dataTable;
+    }
+    static void DisplayDataTable(DataTable dataTable)
+    {
+        foreach(DataRow row in dataTable.Rows) 
+        {
+            foreach(DataColumn column in dataTable.Columns)
+            {
+                Console.Write($"{row[column]} \t");
+            }
+            Console.WriteLine();
+        }
+    }
+    static DataTable FilterData(DataTable dataTable, string filterExpression)
+    {
+        DataTable filterData = dataTable.Clone();
+        DataRow[] filteredRows = dataTable.Select(filterExpression);
+
+        foreach (DataRow row in filteredRows)
+        {
+            filterData.ImportRow(row);
+        }
+        return filterData;
+    }
+    static DataTable SortData(DataTable dataTable, string sortExpression)
+    {
+        DataTable sortData = dataTable.Clone();
+        DataRow[] sortedRows = dataTable.Select("", sortExpression);
+
+        foreach(DataRow row in sortedRows)
+        {
+            sortData.ImportRow(row);
+        }
+        return sortData;
+    }
+    static int GetTotalCustomers(DataTable dataTable)
+    {
+        return dataTable.Rows.Count;
+    }
+}
+
+----------------------------------------------------------------------------------------------------------
+
+7.DATA TABLE
+
+using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ConsoleApp7
+{
+    internal class Class1
+    {
+        static void Main(string[] args)
+        {
+            string conn = "Data Source = 1EB507C8177550A; Initial Catalog = Northwind;Integrated Security = true";
+
+            DataSet dataset = new DataSet();
+
+            DataTable customerTable = ReadDataFromNorthwind(conn, "SELECT * FROM Customers", "Customers");
+            dataset.Tables.Add(customerTable);
+
+            DataTable orderTable = ReadDataFromNorthwind(conn, "SELECT * FROM Orders", "Orders");
+            dataset.Tables.Add(orderTable);
+
+            Console.WriteLine("Customer Data: ");
+            DisplayDataTable(customerTable);
+
+            Console.WriteLine("Order Data: ");
+            DisplayDataTable(orderTable);
+
+        }
+
+        static DataTable ReadDataFromNorthwind(string conn, string query, string tableName)
+        {
+            DataTable dataTable = new DataTable(tableName);
+            try
+            {
+                using(SqlConnection connection = new SqlConnection(conn))
+                {
+                    connection.Open();
+                    using (SqlDataAdapter adapter = new SqlDataAdapter(query, connection))
+                    {
+                        adapter.Fill(dataTable);
+                    }
+                }
+            }catch (Exception ex)
+            {
+                Console.WriteLine($"Error reading Data from Northwind database: {ex.Message}");
+            }
+            return dataTable;
+        }
+        static void DisplayDataTable(DataTable dataTable)
+        {
+            foreach(DataRow row in dataTable.Rows)
+            {
+                foreach(DataColumn column in dataTable.Columns)
+                {
+                    Console.Write($"{column.ColumnName}: {row[column]}\t");
+                }
+                Console.WriteLine();
+            }
+        }
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------
+
+
+

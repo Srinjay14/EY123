@@ -1,0 +1,672 @@
+1. STRING QUERY
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        string[] names = { "Anil", "Sharma", "Abdullah", "Imran", "Silva", "Naresh", "Suresh", "Suman" };
+
+        UsingLinq(names);
+    }
+
+    private static void UsingLinq(string[] names)
+    {
+        /*
+	//option 1
+
+	IEnumerable<string> query = from s in names                // for loop
+        	                    where s.Length == 5
+                	            orderby s
+                        	    select s.ToUpper();
+	*/
+
+	/*
+	//option 2
+
+	IEnumerable<string> query = names
+        	                    .Where(s => s.Length == 5)
+                	            .OrderBy(s => s)
+                        	    .Select(s => s.ToUpper());
+	*/
+
+        /*
+	//option 3
+
+        Func<string, bool> filter = s => s.Length == 5;
+        Func<string, string> extract = s => s;
+        Func<string, string> project = s => s.ToUpper();
+
+        IEnumerable<string> query = names
+                                    .Where(filter)
+                                    .OrderBy(extract)
+                                    .Select(project);
+	*/
+
+	/*
+	option 4
+
+	Func<string, bool> filter = delegate (string s)
+	{
+	    return s.Length == 5;
+	};
+	Func<string, string> extract = delegate (string s)
+	{
+	    return s;
+	};
+	Func<string, string> project = delegate (string s)
+	{
+	    return s.ToUpper();
+	};
+
+	IEnumerable<string> query = names
+        	                    .Where(filter)
+                	            .OrderBy(extract)
+                        	    .Select(project);
+	*/
+         
+
+        foreach (string item in query)
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.Read();
+    }
+}
+
+--------------------------------------------------------------------------------------------------------
+
+2. EXERCISE
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        int[] numbers = {2, 8, 5, 6, 1, 4, 7, 3, 9, 10};
+
+        UsingLinq(numbers);
+    }
+
+    private static void UsingLinq(int[] numbers)
+    {
+        //ALL EVEN NUMBERS
+        Console.WriteLine("ALL EVEN NUMBERS");
+
+        IEnumerable<int> query1 = from s in numbers
+                                  where s % 2 == 0
+                                  select s;
+
+        foreach (int item in query1)
+        {
+            Console.WriteLine(item);
+        }
+
+        //ODD NUMBERS GREATER THAN 5
+        Console.WriteLine("ODD NUMBERS GREATER THAN 5");
+
+        IEnumerable<int> query2 = from i in numbers
+                                  where i % 2 != 0 && i > 5
+                                  select i;
+
+        foreach (int item in query2)
+        {
+            Console.WriteLine(item);
+        }
+
+        //THIRD SMALLEST NUMBER
+        Console.WriteLine("THIRD SMALLEST NUMBER");
+        var query3 = numbers.OrderBy(n => n).Skip(2).FirstOrDefault();
+
+        Console.WriteLine(query3);
+
+
+        //SUM OF ALL NUMBERS
+        Console.WriteLine("SUM OF ALL NUMBERS");
+
+        var query4 = (from k in numbers
+                      select k).Sum();
+
+        Console.WriteLine(query4);
+
+
+        //MAX AND MIN NUMBERS
+        Console.WriteLine("MAX AND MIN NUMBERS");
+
+        var query5 = (from a in numbers select a).Max();
+        var query5b = (from a in numbers select a).Min();
+
+        Console.WriteLine(query5);
+        Console.WriteLine(query5b);
+
+
+
+        //AVERAGE OF NUMBERS
+        Console.WriteLine("AVERAGE OF NUMBERS");
+
+        var query6 = (from p in numbers select p).Average();
+
+        Console.WriteLine(query6);
+
+
+        //LIST NUMBERS AND THEIR SQUARES
+        Console.WriteLine("LIST NUMBERS AND THEIR SQUARES");
+
+        var query7 = numbers.Select(n => new { Number = n, Square = n * n });
+
+        foreach (var item in query7)
+        {
+            Console.WriteLine(item.Number + "->" + item.Square);
+        }
+
+        //FILTER GREATER THAN 3 AND SORT DESCENDING
+        Console.WriteLine("FILTER GREATER THAN 3 AND SORT DESCENDING");
+
+        IEnumerable<int> query8 = from j in numbers
+                                  where j > 3
+                                  orderby j descending
+                                  select j;
+
+        foreach (int item in query8)
+        {
+            Console.WriteLine(item);
+        }
+
+        Console.Read();
+    }
+}
+
+---------------------------------------------------------------------------------------------
+
+3. XML
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        LINQReadXML();
+    }
+
+    private static void LINQReadXML()
+    {
+        string myXML = @"<Department>
+                        <Department>Account</Department>
+                        <Department>Sales</Department>
+                        <Department>Pre-Sales</Department>
+                        <Department>Marketing</Department>
+                        </Department>";
+
+        XDocument xdoc = new XDocument();
+        xdoc = XDocument.Parse(myXML);x
+
+	//DELETE NODE
+        xdoc.Descendants().Where(s => s.Value == "Sales").Remove();
+
+	//ADD NODE
+        xdoc.Element("Departments").Add(new XElement("Department", "Finance"));
+
+
+
+        var result = xdoc.Element("Department").Descendants();
+
+        foreach ( XElement item in result ) 
+        {
+            Console.WriteLine("Department Name - " + item.Value);
+        }
+
+        Console.WriteLine();
+        Console.WriteLine("Press any key to continue.");
+        Console.ReadKey();
+                        
+    }
+}
+
+-------------------------------------------------------------------------------------
+
+4. PUBLIC CLASS EMPLOYEE
+
+internal class Program
+{
+    public class Employee
+    {
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public int Age { get; set; }
+    }
+    private static void Main(string[] args)
+    {
+        Employee[] EmployeeArray =
+        {
+            new Employee() { EmployeeID = 1, EmployeeName = "John", Age = 18 },
+            new Employee() { EmployeeID = 2, EmployeeName = "Steve", Age = 21 },
+            new Employee() { EmployeeID = 3, EmployeeName = "Bill", Age = 25 },
+            new Employee() { EmployeeID = 4, EmployeeName = "Ram", Age = 20 },
+            new Employee() { EmployeeID = 5, EmployeeName = "Ron", Age = 31 },
+            new Employee() { EmployeeID = 6, EmployeeName = "Chris", Age = 17 },
+            new Employee() { EmployeeID = 7, EmployeeName = "Rob", Age = 19 },
+        };
+
+        Employee[] Employees = new Employee[10];
+
+        int i = 0;
+
+        foreach (Employee employee in EmployeeArray)
+        {
+            if(employee.Age > 12 &&  employee.Age < 20)
+            {
+                Employees[i] = employee;
+                System.Console.WriteLine(employee.EmployeeName);
+                i++;
+            }
+        }
+        Console.ReadLine();
+    }
+}
+
+---------------------------------------------------------------------------------------------------
+
+5. EMPLOYEE USING LINQ
+
+internal class Program
+{
+    public class Employee
+    {
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public int Age { get; set; }
+    }
+    private static void Main(string[] args)
+    {
+        Employee[] EmployeeArray =
+        {
+            new Employee() { EmployeeID = 1, EmployeeName = "John", Age = 18 },
+            new Employee() { EmployeeID = 2, EmployeeName = "Steve", Age = 21 },
+            new Employee() { EmployeeID = 3, EmployeeName = "Bill", Age = 25 },
+            new Employee() { EmployeeID = 4, EmployeeName = "Ram", Age = 20 },
+            new Employee() { EmployeeID = 5, EmployeeName = "Ron", Age = 31 },
+            new Employee() { EmployeeID = 6, EmployeeName = "Chris", Age = 17 },
+            new Employee() { EmployeeID = 7, EmployeeName = "Rob", Age = 19 },
+        };
+
+        //USE LINQ TO FIND TEENAGER EMPLOYEES
+
+        Employee[] teenEmployees = EmployeeArray.Where(s => s.Age > 12 && s.Age < 20).ToArray();
+
+        foreach(var employee in teenEmployees)
+        {
+            Console.WriteLine(employee.EmployeeName);
+        }
+
+        
+        Console.ReadLine();
+    }
+}
+
+----------------------------------------------------------------------------------------------------
+
+6. MORE QUERIES
+
+internal class Program
+{
+    public class Employee
+    {
+        public int EmployeeID { get; set; }
+        public string EmployeeName { get; set; }
+        public int Age { get; set; }
+    }
+    private static void Main(string[] args)
+    {
+        Employee[] EmployeeArray =
+        {
+            new Employee() { EmployeeID = 1, EmployeeName = "John", Age = 18 },
+            new Employee() { EmployeeID = 2, EmployeeName = "Steve", Age = 21 },
+            new Employee() { EmployeeID = 3, EmployeeName = "Bill", Age = 25 },
+            new Employee() { EmployeeID = 4, EmployeeName = "Ram", Age = 20 },
+            new Employee() { EmployeeID = 5, EmployeeName = "Ron", Age = 31 },
+            new Employee() { EmployeeID = 6, EmployeeName = "Chris", Age = 17 },
+            new Employee() { EmployeeID = 7, EmployeeName = "Rob", Age = 19 },
+        };
+
+
+        var sortedByName = EmployeeArray.OrderBy(e => e.EmployeeName);
+
+        var nameStartingWithR = EmployeeArray.Where(x => x.EmployeeName.StartsWith("R"));
+        
+        var oldest = EmployeeArray.OrderByDescending(x => x.Age).FirstOrDefault();
+
+        var AverageAge = EmployeeArray.Average(x => x.Age);
+
+        
+        
+        foreach (var user in sortedByName) { Console.WriteLine(user.EmployeeName); }
+
+        foreach (var user in nameStartingWithR) { Console.WriteLine(user.EmployeeName); }
+
+        Console.WriteLine(oldest.EmployeeName);
+
+        Console.WriteLine(AverageAge);
+
+
+        Console.ReadLine();
+    }
+}
+
+--------------------------------------------------------------------------------------------------
+
+7. DELEGATE
+
+
+delegate void customDel(string s);
+internal class Program
+{
+    static void Hello (string s)
+    {
+        Console.WriteLine($"Hello, {s}!");
+    }
+
+    static void Goodbye (string s)
+    {
+        Console.WriteLine($"Goodbye, {s}!");
+
+    }
+
+
+    private static void Main(string[] args)
+    {
+        customDel hiDel, byeDel, multiDel;
+	hiDel = Hello;
+	byeDel = Goodbye;
+	multiDel = hiDel + byeDel;
+
+
+	//Console.WriteLine("Invoking Delegate HiDel: ");
+	//hiDel("A");
+
+	//Console.WriteLine("Invoking Delegate HiDel: ");
+	//byeDel("B");
+
+	Console.WriteLine("Invoking Delegate MultiDel: ");
+	multiDel("C");
+
+	Console.Read();
+    }
+}
+
+-------------------------------------------------------------------------------------------------
+8. DELEGATE MATH OPERATIONS
+
+
+public delegate void Operations(int n);
+
+public class MathOperations
+{
+    public static void AddTen(int num)
+    {
+        Console.WriteLine($"{num} + 10 = {num + 10}");
+    }
+    public static void MultiplyByTwo(int num)
+    {
+        Console.WriteLine($"{num} x 2 = {num * 2}");
+    }
+    public static void SubtractFive(int num)
+    {
+        Console.WriteLine($"{num} - 5 = {num - 5}");
+    }
+}
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Operations op = new Operations(MathOperations.AddTen);
+        op += MathOperations.MultiplyByTwo;
+        op += MathOperations.SubtractFive;
+
+        Console.WriteLine("Invoking the Delegate with the number 5: ");
+        op(5);
+    }
+}
+
+-------------------------------------------------------------------------------------------------
+9. DELEGATE USING CLASS 
+
+
+public delegate void StatusUpdateHandler(string statusMessage);
+
+public class LoggingService
+{
+   public static void log(string s)
+    {
+        Console.WriteLine($"Logging in to {s}");
+    }
+}
+
+public class NotificationService
+{
+    public static void Notify(string s)
+    {
+        Console.WriteLine($"Sending a Notification to {s}");
+    }
+}
+
+public class AuditService
+{
+    public static void Audit(string s)
+    {
+        Console.WriteLine("Auditing....");
+    }
+}
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        StatusUpdateHandler ob = new StatusUpdateHandler(LoggingService.log);
+        ob += NotificationService.Notify;
+        ob += AuditService.Audit;
+
+        ob("System");
+
+    }
+}
+--------------------------------------------------------------------------------
+
+10. EXERCISE
+
+
+using System.Net.Http.Headers;
+using System.Text.Json.Serialization;
+
+public class Product
+{
+    public int ProductID { get; set; }
+    public string Name { get; set; }
+    public string Category { get; set; }
+    public decimal Price { get; set; }
+}
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<Product> products = new List<Product>()
+        {
+            new Product() {ProductID = 1, Name = "Apple", Category = "Fruits", Price = 1.00m},
+            new Product() {ProductID = 2, Name = "Milk", Category = "Dairy", Price = 0.99m},
+            new Product() {ProductID = 3, Name = "Cheese", Category = "Dairy", Price = 2.50m},
+            new Product() {ProductID = 4, Name = "Banana", Category = "Fruits", Price = 0.50m},
+            new Product() {ProductID = 5, Name = "Yogurt", Category = "Dairy", Price = 1.50m},
+        };
+
+        //Find All Dairy Products
+        Console.WriteLine("ALL DAIRY PRODUCTS");
+        var dairy = products.Where(x => x.Category == "Dairy");
+        foreach (var product in dairy) { Console.WriteLine(product.Name); }
+        Console.WriteLine();
+
+        //Sort Products By Price in Ascending
+        Console.WriteLine("SORT BY ASCENDING");
+        var sortasc = products.OrderBy(x => x.Price);
+        foreach (var product in sortasc) {  Console.WriteLine(product.Name); }
+        Console.WriteLine();
+
+        //Most Expensive Product
+        Console.WriteLine("MOST EXPENSIVE PRODUCT");
+        var expensive = products.OrderByDescending(x => x.Price).FirstOrDefault();
+        Console.WriteLine(expensive.Name);
+        Console.WriteLine();
+
+        //Total Cost of Fruits
+        Console.WriteLine("TOTAL COST OF FRUITS");
+        var cost = products.Sum(x => x.Price);
+        Console.WriteLine(cost);
+        Console.WriteLine();
+
+        //List Products with Price Formatted as Currency
+        Console.WriteLine("PRODUCTS WITH PRICE FORMATTED AS CURRENCY");
+        var currency = products.Select(x => x);
+        foreach (var dollar in currency) { Console.WriteLine(dollar.Name + "-- $" + dollar.Price); }
+        Console.WriteLine();
+
+        //Group Products By Category
+        Console.WriteLine("GROUP BY CATEGORY");
+        var category = products.GroupBy(x => x.Category).Select(x => x).ToList();
+        foreach (var cat in category) { Console.WriteLine(cat.Category); }       // Does not work
+        Console.WriteLine();
+
+        //Find Product Cheaper than 1.00
+        Console.WriteLine("PRODUCTS CHEAPER THAN $1");
+        var cheap = products.Where(x => x.Price < 1);
+        foreach (var item in cheap) { Console.WriteLine(item.Name); }
+        Console.WriteLine();
+
+    }
+}
+
+-------------------------------------------------------------------------------------------------
+
+11. FUNC
+
+internal class Program
+{
+    static int Sum(int x, int y)
+    {
+        return x + y;
+    }
+    private static void Main(string[] args)
+    {
+        Func<int, int, int> add = Sum;       // Use Func when there is a return type
+
+        int result = add(10, 10);
+        Console.WriteLine(result);
+    }
+}
+
+-------------------------------------------------------------------------
+
+12. ACTION
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Action<int> printActionDel = ConsolePrint;      //Use Action when return type is void
+        printActionDel(10);
+    }
+
+    public static void ConsolePrint(int i)
+    {
+        Console.WriteLine(i);
+    }
+}
+
+------------------------------------------------------------------------------------
+
+13. EXERCISE 3/5
+
+
+using System.Collections.Generic;
+using System.Xml.Linq;
+
+public class Customer
+{
+    public int CustomerID { get; set; }
+    public string Name { get; set; }
+    public string City { get; set; }
+}
+
+public class Order
+{
+    public int OrderID { get; set; }
+    public int CustomerID { get; set; }
+    public DateTime OrderDate { get; set; }
+    public decimal Amount { get; set; }
+
+}
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<Customer> customers = new List<Customer>
+        {
+            new Customer {CustomerID = 1, Name = "John Doe", City = "New York" },
+            new Customer {CustomerID = 2, Name = "Jane Smith", City = "Los Angeles"},
+            new Customer {CustomerID = 3, Name = "Emily Johnson", City = "Chicago"},
+            new Customer {CustomerID = 4, Name = "Mark Ruffalo", City = "New Jersey"},
+        };
+
+
+        List<Order> orders = new List<Order> {
+
+
+            new Order {OrderID = 1, CustomerID = 1, OrderDate = new DateTime(2023, 1, 20), Amount = 250.00m},
+            new Order {OrderID = 2, CustomerID = 1, OrderDate = new DateTime(2023, 1, 22), Amount = 75.00m },
+            new Order {OrderID = 3, CustomerID = 2, OrderDate = new DateTime(2023, 1, 25), Amount = 125.00m },
+            new Order {OrderID = 4, CustomerID = 3, OrderDate = new DateTime(2023, 2, 11), Amount = 200.00m },
+        };
+
+        var jd = (from c in customers
+                  join o in orders on c.CustomerID equals o.CustomerID
+                  where c.Name == "John Doe"
+                  select new { o.OrderID, c.CustomerID, o.OrderDate, o.Amount }).ToList();
+
+        foreach (var d in jd) 
+        {
+            Console.WriteLine($"OrderID: {d.OrderID}, CustomerID: {d.CustomerID}, OrderDate: {d.OrderDate}, Amount: ${d.Amount}");
+        }
+        Console.WriteLine();
+        Console.WriteLine();
+
+        var sales = (from cu in customers
+                     join or in orders on cu.CustomerID equals or.CustomerID
+                     group or by cu.City into g
+                     select new { City = g.Key, TotalSales = g.Sum(d => d.Amount) });
+
+        foreach(var item in sales) { Console.WriteLine($"City: {item.City}, TotalSales: ${item.TotalSales}"); }
+
+        Console.WriteLine();
+        Console.WriteLine();
+
+        var no = from cu in customers
+                 where !orders.Any(or => or.CustomerID == cu.CustomerID)
+                 select cu;
+
+        foreach (var item in no) { Console.WriteLine(item.Name); }
+        Console.WriteLine();
+        Console.WriteLine();
+
+        var recent = from or in orders
+                     group or by or.CustomerID into g
+                     select new
+                     {
+                         CustomerID = g.Key,
+                         MostRecentOrder = g.OrderByDescending(o => o.OrderDate).FirstOrDefault()
+                     };
+        
+        foreach (var item in recent) 
+        {
+            Console.WriteLine(item.MostRecentOrder);
+        }
+    }
+}
+-------------------------------------------------------------------------------------------------------------
+
+14. 
+

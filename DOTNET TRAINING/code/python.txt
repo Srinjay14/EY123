@@ -1,0 +1,180 @@
+PYTHON 27th MAY
+
+1. EXERCISE
+
+str1 = input("Enter string 1: ")
+# str2 = input("Enter string 2: ")
+# concat_str = str1 + " " + str2
+# print(concat_str)
+
+length = 0
+for i in str1:
+    length += 1
+# print(length)
+
+# print("First character - ", str1[0])
+# print("Last character - ", str1[counter - 1])
+
+# print(str1.upper())
+
+# if str2 in str1:
+#     print("Yes, the substring exists")
+# else:
+#     print("No, the substring does not exist")
+
+rev = ''
+while length > 0:
+    rev = rev + str1[length - 1]
+    length -= 1
+
+# print(f"Reverse of {str1} is {rev}")
+
+str1new = ''
+old = input("Character you want to replace : ")
+new = input("Character you want to add : ")
+
+if old in str1:
+    text_list = list(str1)
+    index1 = str1.index(old)
+    text_list[index1] = new
+    str1new = "".join(text_list)
+    print(str1new)
+else:
+    print("Cannot replace")
+
+new_string = str1.replace(old, new)
+# print(new_string)
+
+-------------------------------------------------------------
+
+2. CLASS
+
+class Person:
+    def __init__(self, name, age):
+        self.name = name
+        self.age = age
+
+    def greet(self):
+        print(f"Hello, my name is {self.name} and I am {self.age} years old.")
+
+
+person1 = Person("Alice", 25)
+person2 = Person("Bob", 34)
+
+person1.greet()
+person2.greet()
+
+-----------------------------------------------------------
+
+3. CLASS 2
+
+class Car:
+    def __init__(self, make, model):
+        self.make = make
+        self.model = model
+        print("")
+
+    def display_info(self):
+        print(f"It is a {self.make}, model {self.model}.")
+
+
+obj = Car("Maserati", "GX23")
+# print(obj.make)
+# print(obj.model)
+
+obj.display_info()
+
+----------------------------------------------------------------
+
+4. TRY-EXCEPT
+
+try :
+    num = float(input("Enter Numerator: "))
+    denom = float(input("Enter Denominator: "))
+
+    result = num / denom
+    print("Result: ", result)
+except ZeroDivisionError:
+    print("Error. Cannot divide by Zero.")
+except ValueError:
+    print("Please enter valid values.")
+except Exception as e:
+    print("An unexpected error occurred.", e)
+
+--------------------------------------------------------------------
+
+5. EXERCISE
+
+def str_reverse(abc):
+    l = len(abc)
+    rev = ''
+    while l > 0:
+        rev = rev + abc[l - 1]
+        l -= 1
+    return rev
+
+
+def palindrome(abc):
+    rev = str_reverse(abc)
+    if abc == rev:
+        print("It is palindrome.")
+    else:
+        print("It is not palindrome")
+
+
+def str_to_int(abc):
+    try:
+        int_str = int(abc)
+        print("The integer string is: ", int_str)
+    except Exception as e:
+        print("Error. Cannot be converted.", e)
+
+
+def int_to_str(num):
+    str_int = str(num)
+    print("The string is: ", str_int)
+
+
+def sum_of_digit(num):
+    sum1 = 0
+    while num > 0:
+        sum1 = sum1 + (num % 10)
+        num = num // 10
+    print(sum1)
+
+
+def multiplication_table(num):
+    for i in range(1, 11):
+        print(f"{num} x {i} = {num * i}")
+
+
+def digit_count(num):
+    count = 0
+    while num > 0:
+        count += 1
+        num = num // 10
+    print(count)
+
+
+str1 = input("Enter the String: ")
+
+try:
+    num1 = int(input("Enter the number: "))
+except ValueError:
+    print("Please Enter Integer values.")
+except Exception as e:
+    print("Error, ",e)
+
+
+# print(str_reverse(str1))
+# palindrome(str1)
+# str_to_int(str1)
+# int_to_str(num1)
+# sum_of_digit(num1)
+# multiplication_table(num1)
+# digit_count(num1)
+
+---------------------------------------------------------------------------
+PYTHON 28th MAY
+
+6. 

@@ -1,0 +1,207 @@
+
+EXERCISE
+
+1. BASIC LIST OPERATIONS
+
+private static void Main(string[] args)
+{
+   List<int> intList = new List<int>();
+
+    intList.Add(2);
+    intList.Add(3);
+    intList.Add(4);
+    intList.Add(5);
+
+    intList.Remove(3);
+    Console.WriteLine(intList.Contains(4));
+
+    foreach(var el in intList)
+    {
+        Console.WriteLine(el);
+    }
+}
+
+-------------------------------------------------------
+
+2. FIND THE MAX AND MIN
+
+private static void Main(string[] args)
+{
+    List<int> intList = new List<int>();
+    intList.Add(1);
+    intList.Add(2);
+    intList.Add(3);
+    intList.Add(4);
+    intList.Add(5);
+
+    int max = 0, min = intList[0];
+
+    foreach (int i in intList)
+    {
+        if (i > max) { max = i; }
+
+        if (i < min) { min = i; }
+    }
+    Console.WriteLine(max);
+    Console.WriteLine(min);
+}
+
+------------------------------------------------------
+
+3. REVERSE A LIST
+
+private static void Main(string[] args)
+{
+    List<string> str = new List<string>() { "Kolkata", "Delhi", "Mumbai", "Chennai" };
+
+    RevList(str);
+
+    foreach(var i in str)
+    {
+        Console.WriteLine(i);
+    }
+}
+
+static void RevList(List<string> a)
+{
+    int left = 0;
+    int right = a.Count - 1;
+
+    while (left < right)
+    {
+        string temp = a[left];
+        a[left] = a[right];
+        a[right] = temp;
+
+        left++;
+        right--;
+    }
+}
+
+--------------------------------------------------------
+
+4. MERGE TWO LISTS
+
+private static void Main(string[] args)
+{
+    List<int> l1 = new List<int>() { 1, 2, 3, 4, 5 };
+
+    List<int> l2 = new List<int>() { 4, 5, 6, 7, 8 };
+
+    var newList = l1.Union(l2);
+
+    foreach (int i in newList) { Console.WriteLine(i); }
+}
+
+------------------------------------------------------------
+
+5. IMPLEMENT A STACK USING LIST 
+
+
+public class Node
+{
+    public int data;
+    public Node next;
+
+    public Node(int data)
+    {
+        this.data = data;
+        this.next = null;
+    }
+}
+
+public class Stack
+{
+    Node top;
+
+    public Stack()
+    {
+        top = null;
+    }
+
+    public Node GetNode(int data)
+    {
+        Node node = new Node(data);
+        return node;
+    }
+
+    public void Push (int data)
+    {
+        Node newNode = GetNode(data);
+        if (top == null)
+        {
+            top = newNode;
+            return;
+        }
+        newNode.next = top;
+        top = newNode;
+    }
+
+    public int Pop()
+    {
+        int pop = -1;
+        if (top != null)
+        {
+            pop = top.data;
+            top = top.next;
+        }
+        return pop;
+    }
+}
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        Stack<int> stack = new Stack<int>();
+
+        stack.Push(1);
+        stack.Push(2);
+        stack.Push(3);
+
+        while(stack.Count != 0)
+        {
+            Console.WriteLine(stack.Pop());
+        }
+
+    }
+}
+
+-----------------------------------------------------------------------------------------------------
+
+6. FREQUENCY OF ELEMENTS
+
+internal class Program
+{
+    private static void Main(string[] args)
+    {
+        List<int> l = new List<int>() { 1, 2, 3, 6, 7, 2, 5, 7, 3, 7, 3, 1, 9, 0, 8 };
+
+        int n = l.Count;
+
+        Frequency(l, n);
+    }
+
+    public static void Frequency(List<int> l, int n)
+    {
+        bool []visited = new bool[n];
+
+        for (int i = 0; i < n; i++)
+        {
+            if (visited[i] == true) { continue;  }
+
+            int count = 1;
+
+            for(int j = i + 1; j < n; j++) 
+            {
+                if (l[i] == l[j])
+                {
+                    visited[j] = true;
+                    count++;
+                }
+            }
+            Console.WriteLine(l[i] + " appears " + count +" times.");
+        }
+    }
+}
+-------------------------------------------------------------------------------------------

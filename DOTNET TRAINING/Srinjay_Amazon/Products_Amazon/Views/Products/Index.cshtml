@@ -1,0 +1,35 @@
+﻿@model IEnumerable<Products_Amazon.Models.Products>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Our Products</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<div class="d-flex gap-4 flex-wrap">
+@foreach (var item in Model) {
+        
+        <div class="d-flex flex-column product-card position-relative">
+            <img src="@Html.DisplayFor(modelItem => item.Image)" style="width:21vw;height:300px">
+            <h4 class="ps-2">@Html.DisplayFor(modelItem => item.Name)</h4>
+            <p class="ps-2">by <a href="#" style="text-decoration:none">@Html.DisplayFor(modelItem => item.Author)</a></p>
+            <div class="ps-2">
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star checked"></span>
+                <span class="fa fa-star"></span>
+            </div>
+            <p class="price ps-2"><b style="font-size:23px;"><sup style="font-size:16px">₹</sup>@Html.DisplayFor(modelItem => item.Discounted_Price)</b> M.R.P.:<s>₹ @Html.DisplayFor(modelItem => item.Price)</s>(@((int)(((double)item.Price - item.Discounted_Price) / item.Price * 100))% off)</p>
+            <button class="btn btn-danger w-75 mb-2 fw-bold position-absolute" style="top:80%;left:5%">Limited Time Deal</button>
+            <div class="ps-2 position-absolute" style="top:95%;left:20%">
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a></div>
+          
+       </div>
+}
+</div>

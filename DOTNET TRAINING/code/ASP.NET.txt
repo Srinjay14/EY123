@@ -1,0 +1,28 @@
+Add-Migration -Name GradeMigration -Context WebApplication39Context
+Update-Database -Migration GradeMigration -Context WebApplication39Context
+
+
+{
+        "id": 1,
+        "firstName": "Rohit",
+        "lastName": "Sharma",
+        "location": "India"
+}
+{
+        "id": 2,
+        "firstName": "Shubhman",
+        "lastName": "Gill",
+        "location": "India"
+}
+{
+        "id": 3,
+        "firstName": "Virat",
+        "lastName": "Kohli"
+        "location": "India"
+}
+{
+        "id": 4,
+        "firstName": "Sreyas",
+        "lastName": "Iyer",
+        "location": "India"
+}
